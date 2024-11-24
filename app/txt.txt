@@ -1,0 +1,21 @@
+import { View, Text, ScrollView } from 'react-native'
+import Heading from './header';
+import { Link } from 'expo-router';
+
+import  Constants  from 'expo-constants'
+const statusBarHeight = Constants.statusBarHeight;
+
+export default function App () {
+ return (
+  <ScrollView 
+  style={{ flex: 1 }} 
+  className='bg-primary'
+  showsVerticalScrollIndicator={false}
+  >
+    <View className='w-full px-4' style={{ marginTop: statusBarHeight}}>
+      <Heading/>
+    </View>
+    <Link href="/(tabs)/home" style={{ color: 'red'}}> Go to profile</Link>
+  </ScrollView>
+ );
+}

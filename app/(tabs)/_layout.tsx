@@ -1,45 +1,83 @@
-import { Tabs } from 'expo-router';
 import React from 'react';
-import { Platform } from 'react-native';
+import { Tabs } from 'expo-router';
+import { Ionicons, Feather } from '@expo/vector-icons';
 
-import { HapticTab } from '@/components/HapticTab';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-import TabBarBackground from '@/components/ui/TabBarBackground';
-import { Colors } from '@/constants/Colors';
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
+const TabsLayout = () => {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
-        headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
-        tabBarStyle: Platform.select({
-          ios: {
-            // Use a transparent background on iOS to show the blur effect
-            position: 'absolute',
-          },
-          default: {},
-        }),
-      }}>
+        tabBarActiveTintColor: '#Bda475', // Cor do título das abas ativas
+        tabBarInactiveTintColor: '#ccc', // Cor do título das abas inativas
+        tabBarLabelStyle: {
+          fontSize: 10, // Tamanho do texto do título
+        },
+        tabBarStyle: {
+          backgroundColor: '#181d31', // Cor de fundo da barra
+          borderTopWidth: 0, // Remove a borda superior
+        },
+      }}
+    >
       <Tabs.Screen
-        name="index"
+        name="home"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: 'Início',
+          tabBarIcon: ({ focused }) => (
+            <Ionicons
+              name="home" // Ícone do Ionicons
+              size={24} // Tamanho do ícone
+              color={focused ? '#Bda475' : '#ccc'} // Cor do ícone
+            />
+          ),
+          headerShown: false, // Esconde o cabeçalho
         }}
       />
+
       <Tabs.Screen
-        name="explore"
+        name="search"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: 'Buscar',
+          tabBarIcon: ({ focused }) => (
+            <Feather
+              name="search" // Ícone do Feather
+              size={24} // Tamanho do ícone
+              color={focused ? '#Bda475' : '#ccc'} // Cor do ícone
+            />
+          ),
+          headerShown: false, // Esconde o cabeçalho
+        }}
+      />
+
+      <Tabs.Screen
+        name="wallet"
+        options={{
+          title: 'Carteira',
+          tabBarIcon: ({ focused }) => (
+            <Feather
+              name="star" // Ícone do Feather
+              size={24} // Tamanho do ícone
+              color={focused ? '#Bda475' : '#ccc'} // Cor do ícone
+            />
+          ),
+          headerShown: false, // Esconde o cabeçalho
+        }}
+      />
+
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: 'Perfil',
+          tabBarIcon: ({ focused }) => (
+            <Feather
+              name="user" // Ícone do Feather
+              size={24} // Tamanho do ícone
+              color={focused ? '#Bda475' : '#ccc'} // Cor do ícone
+            />
+          ),
+          headerShown: false, // Esconde o cabeçalho
         }}
       />
     </Tabs>
   );
-}
+};
+
+export default TabsLayout;
