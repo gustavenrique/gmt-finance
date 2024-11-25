@@ -1,82 +1,92 @@
 import React from 'react';
+import { View } from 'react-native';
 import { Tabs } from 'expo-router';
 import { Ionicons, Feather } from '@expo/vector-icons';
+import Heading from '../header/index'; // Importando o Heading
 
 const TabsLayout = () => {
   return (
-    <Tabs
-      screenOptions={{
-        tabBarActiveTintColor: '#Bda475', // Cor do título das abas ativas
-        tabBarInactiveTintColor: '#ccc', // Cor do título das abas inativas
-        tabBarLabelStyle: {
-          fontSize: 10, // Tamanho do texto do título
-        },
-        tabBarStyle: {
-          backgroundColor: '#181d31', // Cor de fundo da barra
-          borderTopWidth: 0, // Remove a borda superior
-        },
-      }}
-    >
-      <Tabs.Screen
-        name="home"
-        options={{
-          title: 'Início',
-          tabBarIcon: ({ focused }) => (
-            <Ionicons
-              name="home" // Ícone do Ionicons
-              size={24} // Tamanho do ícone
-              color={focused ? '#Bda475' : '#ccc'} // Cor do ícone
-            />
-          ),
-          headerShown: false, // Esconde o cabeçalho
-        }}
-      />
+    <View style={{ flex: 1, backgroundColor: '#000435' }}>
+      {/* Adicionando o Heading acima das tabs */}
+      <View style={{ paddingHorizontal: 15, paddingTop: 10, height: 60, alignItems: 'center', justifyContent: 'center' }}>
+        <Heading />
+      </View>
 
-      <Tabs.Screen
-        name="search"
-        options={{
-          title: 'Buscar',
-          tabBarIcon: ({ focused }) => (
-            <Feather
-              name="search" // Ícone do Feather
-              size={24} // Tamanho do ícone
-              color={focused ? '#Bda475' : '#ccc'} // Cor do ícone
-            />
-          ),
-          headerShown: false, // Esconde o cabeçalho
+      {/* Definindo as tabs */}
+      <Tabs
+        screenOptions={{
+          tabBarActiveTintColor: '#Bda475',
+          tabBarInactiveTintColor: '#ccc',
+          tabBarLabelStyle: {
+            fontSize: 10,
+          },
+          tabBarStyle: {
+            backgroundColor: '#000435',
+            borderTopWidth: 0,
+          },
         }}
-      />
+      >
+        <Tabs.Screen
+          name="home"
+          options={{
+            title: 'Início',
+            tabBarIcon: ({ focused }) => (
+              <Ionicons
+                name="home"
+                size={24}
+                color={focused ? '#Bda475' : '#ccc'}
+              />
+            ),
+            headerShown: false,
+          }}
+        />
 
-      <Tabs.Screen
-        name="wallet"
-        options={{
-          title: 'Carteira',
-          tabBarIcon: ({ focused }) => (
-            <Feather
-              name="star" // Ícone do Feather
-              size={24} // Tamanho do ícone
-              color={focused ? '#Bda475' : '#ccc'} // Cor do ícone
-            />
-          ),
-          headerShown: false, // Esconde o cabeçalho
-        }}
-      />
+        <Tabs.Screen
+          name="search"
+          options={{
+            title: 'Buscar',
+            tabBarIcon: ({ focused }) => (
+              <Feather
+                name="search"
+                size={24}
+                color={focused ? '#Bda475' : '#ccc'}
+              />
+            ),
+            headerShown: false,
+          }}
+        />
 
-      <Tabs.Screen
-        name="profile"
-        options={{
-          title: 'Perfil',
-          tabBarIcon: ({ focused }) => (
-            <Feather
-              name="user" // Ícone do Feather
-              size={24} // Tamanho do ícone
-              color={focused ? '#Bda475' : '#ccc'} // Cor do ícone
-            />
-          ),
-          headerShown: false, // Esconde o cabeçalho
-        }}
-      />
-    </Tabs>
+        <Tabs.Screen
+          name="wallet"
+          options={{
+            title: 'Carteira',
+            tabBarIcon: ({ focused }) => (
+              <Feather
+                name="star"
+                size={24}
+                color={focused ? '#Bda475' : '#ccc'}
+              />
+            ),
+            headerShown: false,
+          }}
+        />
+
+        <Tabs.Screen
+          name="profile"
+          options={{
+            title: 'Perfil',
+            tabBarIcon: ({ focused }) => (
+              <Feather
+                name="user"
+                size={24}
+                color={focused ? '#Bda475' : '#ccc'}
+              />
+            ),
+            headerShown: false,
+          }}
+        />
+      </Tabs>
+    </View>
   );
 };
 

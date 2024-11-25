@@ -9,14 +9,14 @@ export default function App() {
   const router = useRouter();
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#000435' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#000229' }}>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         
         <View
           style={{
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: '#faf7e4', 
+            backgroundColor: '#bda475', 
             paddingVertical: 40,
           }}
         >
@@ -78,7 +78,7 @@ export default function App() {
               width: '80%',
             }}
             onPress={() => {
-              router.push('/sign-in'); 
+              router.push('/home'); 
             }}
           >
             <Text
