@@ -78,7 +78,7 @@ export default function App() {
               width: '80%',
             }}
             onPress={() => {
-              router.push('/home'); 
+              router.push('/sign-in'); 
             }}
           >
             <Text
