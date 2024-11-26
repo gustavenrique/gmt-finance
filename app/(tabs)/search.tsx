@@ -10,15 +10,23 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import axios from 'axios';
-import { FontAwesome } from '@expo/vector-icons'; // Biblioteca para usar ícones
+import { FontAwesome } from '@expo/vector-icons';
+import { Colors } from '@/constants/Colors';
 
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [stockDetails, setStockDetails] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(false); // Estado para o ícone de estrela
+  const [isFavorite, setIsFavorite] = useState(false);
 
-  const apiKey = 'csobmo1r01qt3r34952gcsobmo1r01qt3r349530'; // Substitua com sua chave da API Finnhub
+  const apiKey = 'csobmo1r01qt3r34952gcsobmo1r01qt3r349530';
+
+  // Formatar data de IPO
+  const formatIPODate = (date) => {
+    if (!date) return 'N/A';
+    const [year, month, day] = date.split('-');
+    return `${day}/${month}/${year}`;
+  };
 
   // Formatar valor de mercado
   const formatMarketCap = (value) => {
@@ -67,7 +75,7 @@ const Search = () => {
 
       {/* Overview */}
       {loading ? (
-        <ActivityIndicator size="large" color="#BDA475" />
+        <ActivityIndicator size="large" color="Colors.accent" />
       ) : stockDetails ? (
         <View style={styles.overviewContainer}>
           <View style={styles.overviewHeader}>
@@ -75,15 +83,14 @@ const Search = () => {
             <TouchableOpacity onPress={() => setIsFavorite(!isFavorite)}>
               <FontAwesome
                 name={isFavorite ? 'star' : 'star-o'}
-                size={24}
-                color={isFavorite ? '#FFD700' : '#aaa'}
+                size={28}
+                color={isFavorite ? Colors.accent : '#aaa'}
               />
             </TouchableOpacity>
           </View>
           <View style={styles.priceContainer}>
             <Text style={styles.price}>
               ${stockDetails.c || 'N/A'}
-              <Text style={styles.currency}> {stockDetails.currency || 'USD'}</Text>
             </Text>
             <Text
               style={[
@@ -108,24 +115,28 @@ const Search = () => {
               {stockDetails.name || 'N/A'}
             </Text>
           </View>
+          <View style={styles.divider} />
           <View style={styles.detailRow}>
             <Text style={styles.detailLabel}>Setor:</Text>
             <Text style={styles.detailValue}>
               {stockDetails.finnhubIndustry || 'N/A'}
             </Text>
           </View>
+          <View style={styles.divider} />
           <View style={styles.detailRow}>
             <Text style={styles.detailLabel}>País:</Text>
             <Text style={styles.detailValue}>
               {stockDetails.country || 'N/A'}
             </Text>
           </View>
+          <View style={styles.divider} />
           <View style={styles.detailRow}>
-            <Text style={styles.detailLabel}>Moeda:</Text>
+            <Text style={styles.detailLabel}>Data de IPO:</Text>
             <Text style={styles.detailValue}>
-              {stockDetails.currency || 'USD'}
+              {formatIPODate(stockDetails.ipo)}
             </Text>
           </View>
+          <View style={styles.divider} />
           <View style={styles.detailRow}>
             <Text style={styles.detailLabel}>Valor de Mercado:</Text>
             <Text style={styles.detailValue}>
@@ -141,65 +152,66 @@ const Search = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000435',
+    backgroundColor: Colors.primary,
     padding: 20,
   },
   searchContainer: {
     marginBottom: 20,
     backgroundColor: 'transparent',
     borderWidth: 1,
-    borderColor: '#BDA475',
-    borderRadius: 35,
+    borderColor: Colors.accent,
+    borderRadius: 10,
     paddingHorizontal: 15,
     justifyContent: 'center',
   },
   searchInput: {
-    fontSize: 16,
+    fontSize: 18,
     color: '#fff',
-    height: 40,
+    height: 50,
   },
   overviewContainer: {
-    backgroundColor: '#283246',
+    backgroundColor: Colors.secondary,
     padding: 20,
     borderRadius: 10,
     marginBottom: 20,
-    alignItems: 'center',
   },
   overviewHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     width: '100%',
+    marginBottom: 10,
   },
   symbol: {
-    fontSize: 24,
+    fontSize: 28,
     color: '#fff',
     fontWeight: 'bold',
+    marginBottom: 5,
+    alignSelf: 'flex-start',
   },
   priceContainer: {
-    alignItems: 'center',
-    marginTop: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
   },
   price: {
     fontSize: 28,
-    color: '#BDA475',
+    color: Colors.accent,
     fontWeight: 'bold',
-  },
-  currency: {
-    fontSize: 16,
-    color: '#BDA475',
+    alignSelf: 'flex-start',
   },
   change: {
     fontSize: 18,
-    marginTop: 5,
+    color: '#fff',
+    textAlign: 'right',
   },
   detailsContainer: {
-    backgroundColor: '#283246',
+    backgroundColor: Colors.secondary,
     borderRadius: 10,
-    padding: 10, // Diminuído para ocupar menos espaço
-    
+    padding: 15,
+
   },
   detailsTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#fff',
     marginBottom: 10,
@@ -207,15 +219,20 @@ const styles = StyleSheet.create({
   detailRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 8, // Reduzido o espaçamento
+    marginBottom: 12,
+  },
+  divider: {
+    height: 1,
+    backgroundColor: '#444',
+    marginVertical: 8,
   },
   detailLabel: {
-    fontSize: 14,
-    color: '#BDA475',
+    fontSize: 16,
+    color: Colors.accent,
     fontWeight: 'bold',
   },
   detailValue: {
-    fontSize: 14,
+    fontSize: 16,
     color: '#fff',
   },
 });

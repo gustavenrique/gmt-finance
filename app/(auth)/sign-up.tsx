@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, TextInput, StyleSheet, Text, TouchableOpacity, SafeAreaView } from 'react-native';
+import { Colors } from '@/constants/Colors';
 
 const SignUp = () => {
   const [username, setUsername] = useState('');
@@ -63,17 +64,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: '#000229', // Cor de fundo personalizada
+    backgroundColor: Colors.primary, // Cor de fundo personalizada
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 10,
-    color: '#fff', // Texto branco
+    color: Colors.white, // Texto branco
   },
   subtitle: {
     fontSize: 16,
-    color: '#fff', // Texto branco
+    color: Colors.white, // Texto branco
     marginBottom: 20,
   },
   input: {
@@ -83,28 +84,28 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     borderRadius: 8,
     marginBottom: 15,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.white,
     color: '#000', // Texto preto dentro do campo
   },
   button: {
     width: '100%',
     padding: 15,
-    backgroundColor: '#BDA475', // Cor personalizada do botão
+    backgroundColor: Colors.accent, // Cor personalizada do botão
     borderRadius: 8,
     alignItems: 'center',
   },
   buttonText: {
-    color: '#fff', // Texto branco do botão
+    color: Colors.white, // Texto branco do botão
     fontSize: 16,
     fontWeight: 'bold',
   },
   footerText: {
     marginTop: 20,
     fontSize: 14,
-    color: '#fff', // Texto branco no rodapé
+    color: Colors.white, // Texto branco no rodapé
   },
   link: {
-    color: '#BDA475', // Cor personalizada do link
+    color: Colors.accent, // Cor personalizada do link
     fontWeight: 'bold',
   },
 });

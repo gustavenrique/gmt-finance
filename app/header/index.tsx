@@ -1,5 +1,6 @@
 import { View, Text, Pressable } from 'react-native'
 import { Feather} from '@expo/vector-icons'
+import { Colors } from '@/constants/Colors';
 
 export default function Heading () {
  return (
@@ -9,7 +10,7 @@ export default function Heading () {
         </View>
 
     <Pressable className='w-10 h-10 flex justify-center items-center'>
-        <Feather name="bell" size={20} color="#ffffff"></Feather>
+        <Feather name="bell" size={20} color="#bda475"></Feather>
     </Pressable>
   </View>
 

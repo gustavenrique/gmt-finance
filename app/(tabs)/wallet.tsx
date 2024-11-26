@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
-import { Feather } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons'; // Para ícones
+import { Colors } from '@/constants/Colors';
 
 const Wallet = () => {
   const [showBalance, setShowBalance] = useState(false);
@@ -42,7 +43,8 @@ const Wallet = () => {
             {showBalance ? 'R$ 10.000,00' : '****'}
           </Text>
           <TouchableOpacity onPress={toggleBalanceVisibility}>
-            <Feather name={showBalance ? 'eye-off' : 'eye'} size={20} color="#FF6347" /> {/* Cor alterada para tom de vermelho */}
+            {/* Ícone ajustado dentro do TouchableOpacity */}
+            <Feather name={showBalance ? 'eye-off' : 'eye'} size={20} color="#Bda475" />
           </TouchableOpacity>
         </View>
       </View>
@@ -72,13 +74,13 @@ const Wallet = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000435', // Cor de fundo
+    backgroundColor: Colors.primary, // Cor de fundo
     padding: 20,
   },
   balanceContainer: {
     marginBottom: 30,
     padding: 15,
-    backgroundColor: '#BDA475',
+    backgroundColor: Colors.secondary,
     borderRadius: 10,
   },
   balanceTitle: {
@@ -103,7 +105,7 @@ const styles = StyleSheet.create({
   },
   actionCard: {
     width: '48%', // Tamanho das ações para 2 por linha
-    backgroundColor: '#BDA475',
+    backgroundColor: Colors.secondary,
     borderRadius: 8,
     padding: 15,
     marginBottom: 15,

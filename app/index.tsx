@@ -1,7 +1,7 @@
 import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-
+import { Colors } from '@/constants/Colors';
 
 
 
@@ -9,7 +9,7 @@ export default function App() {
   const router = useRouter();
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: '#000229' }}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.primary }}>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         
         <View

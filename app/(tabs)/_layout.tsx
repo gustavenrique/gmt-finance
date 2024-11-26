@@ -3,10 +3,11 @@ import { View } from 'react-native';
 import { Tabs } from 'expo-router';
 import { Ionicons, Feather } from '@expo/vector-icons';
 import Heading from '../header/index'; // Importando o Heading
+import { Colors } from '@/constants/Colors';
 
 const TabsLayout = () => {
   return (
-    <View style={{ flex: 1, backgroundColor: '#000435' }}>
+    <View style={{ flex: 1, backgroundColor: Colors.primary, }}>
       {/* Adicionando o Heading acima das tabs */}
       <View style={{ paddingHorizontal: 15, paddingTop: 10, height: 60, alignItems: 'center', justifyContent: 'center' }}>
         <Heading />
@@ -15,13 +16,13 @@ const TabsLayout = () => {
       {/* Definindo as tabs */}
       <Tabs
         screenOptions={{
-          tabBarActiveTintColor: '#Bda475',
+          tabBarActiveTintColor: Colors.accent,
           tabBarInactiveTintColor: '#ccc',
           tabBarLabelStyle: {
             fontSize: 10,
           },
           tabBarStyle: {
-            backgroundColor: '#000435',
+            backgroundColor: Colors.primary,
             borderTopWidth: 0,
           },
         }}
@@ -34,7 +35,7 @@ const TabsLayout = () => {
               <Ionicons
                 name="home"
                 size={24}
-                color={focused ? '#Bda475' : '#ccc'}
+                color={focused ? Colors.accent : '#ccc'}
               />
             ),
             headerShown: false,
@@ -49,7 +50,7 @@ const TabsLayout = () => {
               <Feather
                 name="search"
                 size={24}
-                color={focused ? '#Bda475' : '#ccc'}
+                color={focused ? Colors.accent : '#ccc'}
               />
             ),
             headerShown: false,
@@ -61,11 +62,7 @@ const TabsLayout = () => {
           options={{
             title: 'Carteira',
             tabBarIcon: ({ focused }) => (
-              <Feather
-                name="star"
-                size={24}
-                color={focused ? '#Bda475' : '#ccc'}
-              />
+              <Ionicons name="card" size={30} color={focused ? Colors.accent : '#ccc'} />
             ),
             headerShown: false,
           }}
@@ -79,7 +76,7 @@ const TabsLayout = () => {
               <Feather
                 name="user"
                 size={24}
-                color={focused ? '#Bda475' : '#ccc'}
+                color={focused ? Colors.accent : '#ccc'}
               />
             ),
             headerShown: false,

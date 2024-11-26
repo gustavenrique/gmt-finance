@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
+import { Colors } from '@/constants/Colors';
 
 const EditProfile = () => {
   const [username, setUsername] = useState('John Doe');

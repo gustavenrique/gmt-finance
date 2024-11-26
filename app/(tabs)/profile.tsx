@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native'; // Hook de navegação
+import { Colors } from '@/constants/Colors';
 
 
 const Profile = () => {
@@ -44,7 +45,7 @@ const Profile = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000435', // Fundo principal
+    backgroundColor: Colors.primary, // Fundo principal
     padding: 20,
   },
   header: {
@@ -56,7 +57,7 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40, // Círculo
-    backgroundColor: '#BDA475', // Cor para simular a foto
+    backgroundColor: Colors.accent, // Cor para simular a foto
   },
   profileDetails: {
     marginLeft: 20,
