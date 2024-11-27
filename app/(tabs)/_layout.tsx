@@ -1,16 +1,16 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
 import { Tabs } from 'expo-router';
 import { Ionicons, Feather } from '@expo/vector-icons';
-import Heading from '../header/index'; // Importando o Heading
 import { Colors } from '@/constants/Colors';
 
 const TabsLayout = () => {
   return (
-    <View style={{ flex: 1, backgroundColor: Colors.primary, }}>
-      {/* Adicionando o Heading acima das tabs */}
-      <View style={{ paddingHorizontal: 15, paddingTop: 10, height: 60, alignItems: 'center', justifyContent: 'center' }}>
-        <Heading />
+    <View style={{ flex: 1, backgroundColor: Colors.primary }}>
+      {/* Header personalizado */}
+      <View style={styles.headerContainer}>
+        <Text style={styles.greetingText}>Olá</Text>
+        <Feather name="bell" size={24} color="#fff" />
       </View>
 
       {/* Definindo as tabs */}
@@ -85,6 +85,23 @@ const TabsLayout = () => {
       </Tabs>
     </View>
   );
+};
+
+const styles = {
+  headerContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 15,
+    paddingTop: 10,
+    height: 60,
+    backgroundColor: Colors.primary,
+  },
+  greetingText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
 };
 
 export default TabsLayout;

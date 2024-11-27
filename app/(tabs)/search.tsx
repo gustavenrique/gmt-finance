@@ -8,6 +8,7 @@ import {
   ScrollView,
   ActivityIndicator,
   TouchableOpacity,
+  Image, // Importação do componente Image
 } from 'react-native';
 import axios from 'axios';
 import { FontAwesome } from '@expo/vector-icons';
@@ -28,7 +29,7 @@ const Search = () => {
     return `${day}/${month}/${year}`;
   };
 
-  // Formatar valor de mercado
+  // Formatar valor de mercado - versão inicial
   const formatMarketCap = (value) => {
     if (!value) return 'N/A';
     return `${(value / 1000).toFixed(1)}B`; // Exemplo: 3456 -> 3,4B
@@ -61,7 +62,6 @@ const Search = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Barra de Pesquisa */}
       <View style={styles.searchContainer}>
         <TextInput
           style={styles.searchInput}
@@ -73,9 +73,8 @@ const Search = () => {
         />
       </View>
 
-      {/* Overview */}
       {loading ? (
-        <ActivityIndicator size="large" color="Colors.accent" />
+        <ActivityIndicator size="large" color={Colors.accent} />
       ) : stockDetails ? (
         <View style={styles.overviewContainer}>
           <View style={styles.overviewHeader}>
@@ -89,13 +88,11 @@ const Search = () => {
             </TouchableOpacity>
           </View>
           <View style={styles.priceContainer}>
-            <Text style={styles.price}>
-              ${stockDetails.c || 'N/A'}
-            </Text>
+            <Text style={styles.price}>${stockDetails.c || 'N/A'}</Text>
             <Text
-              style={[
-                styles.change,
-                { color: stockDetails.d > 0 ? '#32CD32' : '#FF4500' },
+              style={[ 
+                styles.change, 
+                { color: stockDetails.d > 0 ? '#32CD32' : '#FF4500' }
               ]}
             >
               {stockDetails.d > 0 ? '+' : ''}
@@ -105,15 +102,20 @@ const Search = () => {
         </View>
       ) : null}
 
-      {/* Detalhes */}
       {stockDetails && (
         <ScrollView style={styles.detailsContainer}>
-          <Text style={styles.detailsTitle}>Detalhes da Ação</Text>
+          <Text style={styles.detailsTitle}>Mais informações:</Text>
+          {/* Exibição da logo acima do nome */}
+          {stockDetails.logo && (
+            <Image
+              source={{ uri: stockDetails.logo }}
+              style={styles.logo}
+              resizeMode="contain"
+            />
+          )}
           <View style={styles.detailRow}>
             <Text style={styles.detailLabel}>Nome:</Text>
-            <Text style={styles.detailValue}>
-              {stockDetails.name || 'N/A'}
-            </Text>
+            <Text style={styles.detailValue}>{stockDetails.name || 'N/A'}</Text>
           </View>
           <View style={styles.divider} />
           <View style={styles.detailRow}>
@@ -157,7 +159,6 @@ const styles = StyleSheet.create({
   },
   searchContainer: {
     marginBottom: 20,
-    backgroundColor: 'transparent',
     borderWidth: 1,
     borderColor: Colors.accent,
     borderRadius: 10,
@@ -178,15 +179,11 @@ const styles = StyleSheet.create({
   overviewHeader: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '100%',
-    marginBottom: 10,
   },
   symbol: {
     fontSize: 28,
     color: '#fff',
     fontWeight: 'bold',
-    marginBottom: 5,
-    alignSelf: 'flex-start',
   },
   priceContainer: {
     flexDirection: 'row',
@@ -197,23 +194,25 @@ const styles = StyleSheet.create({
     fontSize: 28,
     color: Colors.accent,
     fontWeight: 'bold',
-    alignSelf: 'flex-start',
   },
   change: {
     fontSize: 18,
-    color: '#fff',
-    textAlign: 'right',
   },
   detailsContainer: {
     backgroundColor: Colors.secondary,
     borderRadius: 10,
     padding: 15,
-
   },
   detailsTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 15,
+    fontWeight: 'light',
     color: '#fff',
+    marginBottom: 10,
+  },
+  logo: {
+    width: 100,
+    height: 100,
+    alignSelf: 'center',
     marginBottom: 10,
   },
   detailRow: {

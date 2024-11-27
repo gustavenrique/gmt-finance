@@ -14,6 +14,12 @@ const Wallet = () => {
     { id: 4, name: 'Ação 4', symbol: 'A4' },
     { id: 5, name: 'Ação 5', symbol: 'A5' },
     { id: 6, name: 'Ação 6', symbol: 'A6' },
+    { id: 7, name: 'Ação 7', symbol: 'A7' },
+    { id: 8, name: 'Ação 8', symbol: 'A8' },
+    { id: 9, name: 'Ação 9', symbol: 'A9' },
+    { id: 10, name: 'Ação 10', symbol: 'A10' },
+    { id: 11, name: 'Ação 11', symbol: 'A11' },
+    { id: 12, name: 'Ação 12', symbol: 'A12' },
   ];
 
   // Função para alternar entre mostrar e esconder o valor

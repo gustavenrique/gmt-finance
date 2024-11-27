@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40, // Círculo
-    backgroundColor: Colors.accent, // Cor para simular a foto
+    backgroundColor: '#BDA475', // Cor para simular a foto
   },
   profileDetails: {
     marginLeft: 20,

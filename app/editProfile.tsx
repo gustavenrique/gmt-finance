@@ -45,7 +45,7 @@ const EditProfile = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000435', // Cor de fundo
+    backgroundColor: Colors.primary, // Cor de fundo
     padding: 20,
   },
   profileContainer: {

@@ -2,7 +2,7 @@
 
 export const Colors = {
   primary: '#050617',    // Cor principal
-  secondary: '#121323',  // Cor secundária
+  secondary: '#1f202f',  // Cor secundária
   accent: '#BDA475',     // Cor de destaque
   white: '#FFFFFF',
   black: '#000000',
