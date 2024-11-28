@@ -13,7 +13,6 @@ const Home = () => {
   const [favorites, setFavorites] = useState([]);
 
   const apiKeyFinnhub = 'csobmo1r01qt3r34952gcsobmo1r01qt3r349530'; 
-  const apiKeyExchange = '103a357b6fb3b62d4a03d903'; 
 
   // Função para buscar ações aleatórias
   const fetchRandomStocks = async () => {
@@ -28,7 +27,7 @@ const Home = () => {
 
       const stocksData = responses.map((response, index) => ({
         symbol: randomSymbols[index],
-        price: response.data.c ?? 0, // Define como 0 se o valor for null ou undefined
+        price: response.data.c ?? 0, 
         change: response.data.d ?? 0,
         changePercent: response.data.dp ?? 0,
       }));
@@ -41,15 +40,15 @@ const Home = () => {
     }
   };
 
-  // Função para buscar cotação do dólar usando a ExchangeRate-API
+  // Função para buscar cotação do dólar usando a AwesomeAPI
   const fetchDollarRate = async () => {
     try {
-      const response = await axios.get(
-        `https://v6.exchangerate-api.com/v6/${apiKeyExchange}/latest/USD` // URL da ExchangeRate-API
-      );
-      setDollarRate(response.data.conversion_rates.BRL ?? 0); // A cotação para BRL (real brasileiro)
+      const response = await axios.get('https://economia.awesomeapi.com.br/json/last/USD-BRL');
+      const dollarData = response.data['USDBRL'];
+      setDollarRate(parseFloat(dollarData.ask)); // Pega o valor "ask"
     } catch (error) {
       console.error('Erro ao buscar cotação do dólar:', error);
+      setDollarRate(0); // Fallback para evitar crash
     }
   };
 
@@ -73,7 +72,6 @@ const Home = () => {
         contentContainerStyle={styles.scrollViewContainer}
         showsVerticalScrollIndicator={false}
       >
-        {/* Círculos decorativos com textos abaixo */}
         <View style={styles.circleRow}>
           <View style={styles.circleWithText}>
             <View style={[styles.circle, { borderColor: Colors.accent }]}>
@@ -124,10 +122,8 @@ const Home = () => {
           <ActivityIndicator size="small" color="#BDA475" style={styles.loader} />
         )}
 
-        {/* Título Ações em Tempo Real */}
         <Text style={styles.realtimeText}>Ações em tempo real</Text>
 
-        {/* Ações aleatórias */}
         {loading ? (
           <ActivityIndicator size="large" color="#BDA475" style={styles.loader} />
         ) : (
@@ -189,8 +185,8 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
-    backgroundColor: Colors.primary, // Cor de fundo dentro do círculo
-    borderWidth: 1, // Borda de 1px
+    backgroundColor: Colors.primary,
+    borderWidth: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },

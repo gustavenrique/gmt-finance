@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, TextInput, StyleSheet, Text, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Colors } from '@/constants/Colors';
+import { createUser } from '../../lib/appwrite';  // Certifique-se de importar a função de criação
 
 const SignUp = () => {
   const [username, setUsername] = useState('');
@@ -8,9 +9,7 @@ const SignUp = () => {
   const [password, setPassword] = useState('');
 
   const handleSignUp = () => {
-    console.log('Nome de usuário:', username);
-    console.log('Email:', email);
-    console.log('Senha:', password);
+    createUser(email, password, username);  // Passando o username e email
   };
 
   return (

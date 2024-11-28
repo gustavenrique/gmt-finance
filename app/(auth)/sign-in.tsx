@@ -1,22 +1,36 @@
 import React, { useState } from 'react';
 import { View, TextInput, StyleSheet, Text, TouchableOpacity, SafeAreaView } from 'react-native';
-import { useRouter } from 'expo-router'; // Se estiver usando Expo Router
+import { useRouter } from 'expo-router';
 import { Colors } from '@/constants/Colors';
+import { loginUser } from '../../lib/appwrite';  // Importe a função de login
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState(''); // Estado para exibir mensagens de erro
   const router = useRouter(); // Inicializa o router para navegação
 
-  const handleLogin = () => {
-    console.log('Email:', email);
-    console.log('Password:', password);
+  const handleLogin = async () => {
+    setErrorMessage(''); // Limpa qualquer mensagem de erro anterior
+    try {
+      const response = await loginUser(email, password); // Usando a função de login correta
+      console.log('Login successful:', response);
+      router.push('/home'); // Redireciona para a página inicial após o login
+    } catch (error) {
+      console.error('Login failed:', error.message);
+      setErrorMessage(error.message); // Exibe a mensagem de erro
+    }
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.title}>Bem-vindo!</Text>
       <Text style={styles.subtitle}>Faça login para continuar</Text>
+
+      {/* Exibição de mensagem de erro */}
+      {errorMessage ? (
+        <Text style={styles.errorText}>{errorMessage}</Text>
+      ) : null}
 
       <TextInput
         style={styles.input}
@@ -37,10 +51,7 @@ const SignIn = () => {
         placeholderTextColor="#aaa"
       />
 
-      <TouchableOpacity style={styles.button} onPress={() => {
-      router.push('/home'); 
-      }}
-      >
+      <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Entrar</Text>
       </TouchableOpacity>
 
@@ -49,12 +60,20 @@ const SignIn = () => {
         <Text
           style={styles.link}
           onPress={() => {
-            router.push('/sign-up'); // Navega para a página de registro
+            router.push('/sign-up');
           }}
         >
           Registre-se
         </Text>
       </Text>
+        <Text
+          style={styles.link}
+          onPress={() => {
+            router.push('/home');
+          }}
+        >
+          home
+        </Text>
     </SafeAreaView>
   );
 };
@@ -65,17 +84,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20,
-    backgroundColor: Colors.primary, // Cor de fundo personalizada
+    backgroundColor: Colors.primary,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 10,
-    color: Colors.white, // Texto branco
+    color: Colors.white,
   },
   subtitle: {
     fontSize: 16,
-    color: Colors.white, // Texto branco
+    color: Colors.white,
     marginBottom: 20,
   },
   input: {
@@ -86,29 +105,35 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     marginBottom: 15,
     backgroundColor: Colors.white,
-    color: Colors.black, // Texto preto dentro do campo
+    color: '#000',
   },
   button: {
     width: '100%',
     padding: 15,
-    backgroundColor: Colors.accent, // Cor personalizada do botão
+    backgroundColor: Colors.accent,
     borderRadius: 8,
     alignItems: 'center',
   },
   buttonText: {
-    color: Colors.white, // Texto branco do botão
+    color: Colors.white,
     fontSize: 16,
     fontWeight: 'bold',
   },
   footerText: {
     marginTop: 20,
     fontSize: 14,
-    color: Colors.white, // Texto branco no rodapé
+    color: Colors.white,
   },
   link: {
-    color: Colors.accent, // Cor personalizada do link
+    color: Colors.accent,
     fontWeight: 'bold',
   },
+  errorText: {
+    color: 'red',  // Cor para erros
+    fontSize: 14,
+    marginBottom: 15,
+    fontWeight: 'bold',
+  }
 });
 
 export default SignIn;
