@@ -1,17 +1,32 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Alert } from 'react-native';
 import { Feather } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native'; // Hook de navegação
+import { useRouter } from 'expo-router'; // Usando o expo-router
+import { account } from '../../lib/appwrite'; // Certifique-se de importar o Appwrite corretamente
 import { Colors } from '@/constants/Colors';
 
-
 const Profile = () => {
+  const router = useRouter(); // Hook do router para navegação
+
+  // Função para realizar o logout
+  const handleLogout = async () => {
+    try {
+      await account.deleteSessions(); // Encerra todas as sessões ativas
+      Alert.alert('Logout', 'Você foi desconectado com sucesso.');
+
+      // Redireciona para a tela de login após o logout
+      router.push('/sign-in'); // Redirecionamento para a página de login
+    } catch (error) {
+      Alert.alert('Erro', 'Falha ao realizar logout. Tente novamente.');
+      console.error('Erro no logout:', error);
+    }
+  };
 
   const options = [
-    { title: 'Dados Cadastrais', icon: 'file-text'}, 
+    { title: 'Dados Cadastrais', icon: 'file-text' },
     { title: 'Ajuda', icon: 'help-circle' },
     { title: 'Configurações', icon: 'settings' },
-    { title: 'Sair', icon: 'log-out' },
+    { title: 'Sair', icon: 'log-out', onPress: handleLogout }, // Ação de logout
   ];
 
   return (
@@ -57,7 +72,7 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 40, // Círculo
-    backgroundColor: '#BDA475', // Cor para simular a foto
+    backgroundColor: Colors.accent, // Cor para simular a foto
   },
   profileDetails: {
     marginLeft: 20,
@@ -65,7 +80,7 @@ const styles = StyleSheet.create({
   profileName: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#fff', // Texto branco
+    color: Colors.white, // Texto preto
   },
   optionsContainer: {
     marginTop: 20,
@@ -85,7 +100,7 @@ const styles = StyleSheet.create({
   optionText: {
     marginLeft: 10,
     fontSize: 16,
-    color: '#fff', // Texto branco
+    color: Colors.white, // Texto preto
   },
 });
 

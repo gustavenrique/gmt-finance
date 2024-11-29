@@ -1,15 +1,39 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
 import { Tabs } from 'expo-router';
 import { Ionicons, Feather } from '@expo/vector-icons';
 import { Colors } from '@/constants/Colors';
+import { Client, Account } from 'react-native-appwrite'; // Importar o Client e Account do Appwrite
+
+// Configuração do Appwrite
+const client = new Client();
+client.setEndpoint('https://cloud.appwrite.io/v1') // Substitua pelo seu endpoint
+      .setProject('6747a1f400376a0055e3'); // Substitua pelo seu projectId
+
+const account = new Account(client); // Criação da instância Account
 
 const TabsLayout = () => {
+  const [userName, setUserName] = useState('');
+
+  useEffect(() => {
+    // Função para pegar o nome do usuário logado
+    const getUser = async () => {
+      try {
+        const user = await account.get(); // Obtendo as informações do usuário logado
+        setUserName(user.name); // Armazenando o nome do usuário
+      } catch (error) {
+        console.error('Erro ao obter usuário:', error);
+      }
+    };
+
+    getUser();
+  }, []); // useEffect será executado apenas uma vez após o componente ser montado
+
   return (
     <View style={{ flex: 1, backgroundColor: Colors.primary }}>
       {/* Header personalizado */}
       <View style={styles.headerContainer}>
-        <Text style={styles.greetingText}>Olá</Text>
+        <Text style={styles.greetingText}>Olá, {userName || 'Carregando...'}</Text> {/* Exibindo o nome do usuário */}
         <Feather name="bell" size={24} color="#fff" />
       </View>
 
