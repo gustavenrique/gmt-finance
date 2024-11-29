@@ -14,7 +14,6 @@ const Home = () => {
 
   const apiKeyFinnhub = 'csobmo1r01qt3r34952gcsobmo1r01qt3r349530'; 
 
-  // Função para buscar ações aleatórias
   const fetchRandomStocks = async () => {
     const symbols = ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'META', 'NFLX', 'KO', 'JNJ', 'NVDA', 'INTC', 'AMD']; 
     const randomSymbols = symbols.sort(() => 0.5 - Math.random()).slice(0, 4); 
@@ -40,19 +39,17 @@ const Home = () => {
     }
   };
 
-  // Função para buscar cotação do dólar usando a AwesomeAPI
   const fetchDollarRate = async () => {
     try {
       const response = await axios.get('https://economia.awesomeapi.com.br/json/last/USD-BRL');
       const dollarData = response.data['USDBRL'];
-      setDollarRate(parseFloat(dollarData.ask)); // Pega o valor "ask"
+      setDollarRate(parseFloat(dollarData.ask)); 
     } catch (error) {
       console.error('Erro ao buscar cotação do dólar:', error);
-      setDollarRate(0); // Fallback para evitar crash
+      setDollarRate(0); 
     }
   };
 
-  // Alternar favorito
   const toggleFavorite = (symbol) => {
     if (favorites.includes(symbol)) {
       setFavorites(favorites.filter((fav) => fav !== symbol));
@@ -73,39 +70,20 @@ const Home = () => {
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.circleRow}>
-          <View style={styles.circleWithText}>
-            <View style={[styles.circle, { borderColor: Colors.accent }]}>
-              <Feather name="codesandbox" size={30} color={Colors.gray} />
+          {['GMT', 'Dados', 'NASDAQ', 'Segurança', 'Ajuda'].map((text, index) => (
+            <View key={index} style={styles.circleWithText}>
+              <View style={[styles.circle, { borderColor: Colors.accent }]}>
+                {index === 0 && <Feather name="codesandbox" size={30} color={Colors.gray} />}
+                {index === 1 && <Feather name="file" size={30} color={Colors.gray} />}
+                {index === 2 && <Ionicons name="analytics-outline" size={30} color={Colors.gray} />}
+                {index === 3 && <Feather name="shield" size={30} color={Colors.gray} />}
+                {index === 4 && <Feather name="help-circle" size={30} color={Colors.gray} />}
+              </View>
+              <Text style={styles.circleText}>{text}</Text>
             </View>
-            <Text style={styles.circleText}>GMT</Text>
-          </View>
-          <View style={styles.circleWithText}>
-            <View style={[styles.circle, { borderColor: Colors.accent }]}>
-              <Feather name="file" size={30} color={Colors.gray} />
-            </View>
-            <Text style={styles.circleText}>Dados</Text>
-          </View>
-          <View style={styles.circleWithText}>
-            <View style={[styles.circle, { borderColor: Colors.accent }]}>
-              <Ionicons name="analytics-outline" size={30} color={Colors.gray} />
-            </View>
-            <Text style={styles.circleText}>NASDAQ</Text>
-          </View>
-          <View style={styles.circleWithText}>
-            <View style={[styles.circle, { borderColor: Colors.accent }]}>
-              <Feather name="shield" size={30} color={Colors.gray} />
-            </View>
-            <Text style={styles.circleText}>Segurança</Text>
-          </View>
-          <View style={styles.circleWithText}>
-            <View style={[styles.circle, { borderColor: Colors.accent }]}>
-              <Feather name="help-circle" size={30} color={Colors.gray} />
-            </View>
-            <Text style={styles.circleText}>Ajuda</Text>
-          </View>
+          ))}
         </View>
 
-        {/* Cotação do dólar */}
         {dollarRate !== null ? (
           <View style={styles.dollarContainer}>
             <Image
