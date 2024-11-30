@@ -1,6 +1,7 @@
-import { Client, Account, ID, Databases } from "react-native-appwrite";
+import { Client, ID, Databases } from "react-native-appwrite";
 import Config from "./config";
-import { Order } from "../app/dtos/Order";
+import { OperationType, Order } from "../app/dtos/Order";
+import { account } from "./user.repository";
 
 const client = new Client();
 
@@ -11,7 +12,22 @@ client
 
 const databases = new Databases(client);
 
-export const placeOrder = (order: Order) => {
-  // buscar userId
-  // buscar criar documento
-};
+export default {
+  async placeOrder(order: Order) {
+    order.userId = (await account.get()).$id;
+
+    await databases.createDocument(
+      Config.appWrite.databaseId,
+      Config.appWrite.ordersCollectionId,
+      ID.unique(),
+      {
+        ...order,
+        operationType: order.operationType.toString()
+      }
+    )
+  },
+
+  async getOrdersByUser(userId: string) {
+    
+  }
+}

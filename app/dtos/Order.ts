@@ -4,10 +4,6 @@ export type Order = {
   quantity: number;
   unitPrice: number;
   operationType: OperationType;
-  createdAt: Date;
 };
 
-export enum OperationType {
-  Purchase,
-  Sale,
-}
+export type OperationType = 'Purchase' | 'Sale';

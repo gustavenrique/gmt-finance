@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import {
   View,
   Text,
@@ -21,6 +21,7 @@ import {
 } from "@/constants/Style";
 import { Order, OperationType } from "../dtos/Order";
 import Config from "../../infra/config";
+import orderRepository from "@/infra/order.repository";
 
 const Search = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -32,21 +33,19 @@ const Search = () => {
     text: string;
     style: object;
   } | null>(null);
+  const fadeAnim = useRef(new Animated.Value(0)).current;
 
-  // Formatar data de IPO
   const formatIPODate = (date) => {
     if (!date) return "N/A";
     const [year, month, day] = date.split("-");
     return `${day}/${month}/${year}`;
   };
 
-  // Formatar valor de mercado - versão inicial
   const formatMarketCap = (value) => {
     if (!value) return "N/A";
     return `$ ${(value / 1000).toFixed(1)}B`; // Exemplo: 3456 -> 3,4B
   };
 
-  // Função para buscar detalhes da ação
   const fetchStockDetails = async () => {
     if (!searchTerm) return;
 
@@ -94,8 +93,7 @@ const Search = () => {
         stock: stockDetails.ticker,
         quantity: quantity,
         unitPrice: stockDetails.c,
-        operationType: type,
-        createdAt: new Date(),
+        operationType: type
       })
 
       setQuantity(0);
@@ -188,14 +186,14 @@ const Search = () => {
           <View style={styles.detailRow}>
             <TouchableOpacity
               style={[ButtonStyle.button, { width: "45%" }]}
-              onPress={() => placeOrder(OperationType.Purchase)}
+              onPress={() => placeOrder('Purchase')}
             >
               <Text style={ButtonStyle.text}>Comprar</Text>
             </TouchableOpacity>
 
             <TouchableOpacity
               style={[ButtonStyle.button, { width: "45%" }]}
-              onPress={() => placeOrder(OperationType.Sale)}
+              onPress={() => placeOrder('Sale')}
             >
               <Text style={ButtonStyle.text}>Vender</Text>
             </TouchableOpacity>
