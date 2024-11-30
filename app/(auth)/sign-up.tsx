@@ -8,8 +8,8 @@ import {
   Animated,
 } from "react-native";
 import { useRouter } from "expo-router"; // Usando o hook do Expo Router
-import { Colors, messageBoxStyle } from "@/constants/Colors";
-import { createUser } from "../../lib/appwrite"; // Certifique-se de importar a função de criação corretamente
+import { ButtonStyle, Colors, MessageBoxStyle } from "@/constants/Style";
+import { createUser } from "../../infra/user.repository"; // Certifique-se de importar a função de criação corretamente
 
 const SignUp = () => {
   const [username, setUsername] = useState("");
@@ -28,7 +28,7 @@ const SignUp = () => {
 
       showMessage({
         text: "Cadastro realizado com sucesso!",
-        style: messageBoxStyle.successMessage,
+        style: MessageBoxStyle.successMessage,
       });
 
       setTimeout(() => router.push("/sign-in"), 3000); // Redirecionar após a mensagem desaparecer
@@ -36,7 +36,7 @@ const SignUp = () => {
       console.error("Erro no cadastro:", error.message);
       showMessage({
         text: error.message,
-        style: messageBoxStyle.errorMessage,
+        style: MessageBoxStyle.errorMessage,
       });
     }
   };
@@ -93,8 +93,8 @@ const SignUp = () => {
           placeholderTextColor="#aaa"
         />
 
-        <TouchableOpacity style={styles.button} onPress={handleSignUp}>
-          <Text style={styles.buttonText}>Cadastrar</Text>
+        <TouchableOpacity style={ButtonStyle.button} onPress={handleSignUp}>
+          <Text style={ButtonStyle.text}>Cadastrar</Text>
         </TouchableOpacity>
       </div>
 
@@ -110,7 +110,7 @@ const SignUp = () => {
 
       {message?.text && (
         <Animated.View
-          style={[messageBoxStyle.messageContainer, { opacity: fadeAnim }]}
+          style={[MessageBoxStyle.messageContainer, { opacity: fadeAnim }]}
         >
           <Text style={message.style}>{message.text}</Text>
         </Animated.View>
@@ -147,18 +147,6 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     backgroundColor: Colors.white,
     color: "#000",
-  },
-  button: {
-    width: "100%",
-    padding: 15,
-    backgroundColor: Colors.accent,
-    borderRadius: 8,
-    alignItems: "center",
-  },
-  buttonText: {
-    color: Colors.white,
-    fontSize: 16,
-    fontWeight: "bold",
   },
   footerText: {
     marginTop: 20,

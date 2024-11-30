@@ -1,19 +1,12 @@
 import { Client, Account, ID, Databases } from "react-native-appwrite";
-
-export const config = {
-  endpoint: "https://cloud.appwrite.io/v1",
-  platform: "com.finance.gmt",
-  projectId: "6747a1f400376a0055e3",
-  databaseId: "6747a38f002ef746824e",
-  userCollectionId: "6747a3aa000fa3c52cad",
-  walletCollectionId: "6747aa590015997274a4",
-};
+import Config from "./config";
 
 const client = new Client();
+
 client
-  .setEndpoint(config.endpoint)
-  .setProject(config.projectId)
-  .setPlatform(config.platform);
+  .setEndpoint(Config.appWrite.endpoint)
+  .setProject(Config.appWrite.projectId)
+  .setPlatform(Config.appWrite.platform);
 
 const account = new Account(client);
 const databases = new Databases(client);
@@ -38,8 +31,8 @@ export const createUser = async (
     };
 
     const databaseResponse = await databases.createDocument(
-      config.databaseId,
-      config.userCollectionId,
+      Config.appWrite.databaseId,
+      Config.appWrite.userCollectionId,
       ID.unique(),
       userData
     );
@@ -95,4 +88,4 @@ export const updateUserProfile = async (
   }
 };
 
-export { account, databases };
+export { account };

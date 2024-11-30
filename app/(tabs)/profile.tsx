@@ -9,8 +9,8 @@ import {
 } from "react-native";
 import { Feather } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { account } from "../../lib/appwrite";
-import { Colors } from "@/constants/Colors";
+import { account } from "../../infra/user.repository";
+import { Colors } from "@/constants/Style";
 
 const Profile = () => {
   const [messageVisible, setMessageVisible] = useState(false);

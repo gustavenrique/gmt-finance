@@ -8,8 +8,8 @@ import {
   SafeAreaView,
 } from "react-native";
 import { useRouter } from "expo-router";
-import { Colors } from "@/constants/Colors";
-import { loginUser } from "../../lib/appwrite"; // Importe a função de login
+import { Colors } from "@/constants/Style";
+import { loginUser } from "../../infra/user.repository"; // Importe a função de login
 
 const SignIn = () => {
   const [email, setEmail] = useState("");

@@ -1,9 +1,7 @@
-import { View, Text, ScrollView, Image, TouchableOpacity } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { useRouter } from 'expo-router';
-import { Colors } from '@/constants/Colors';
-
-
+import { View, Text, ScrollView, Image, TouchableOpacity } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { useRouter } from "expo-router";
+import { Colors } from "@/constants/Style";
 
 export default function App() {
   const router = useRouter();
@@ -11,24 +9,20 @@ export default function App() {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: Colors.primary }}>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        
         <View
           style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: '#bda475', 
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "#bda475",
             paddingVertical: 40,
           }}
-        >
-          
-        </View>
+        ></View>
 
-        
         <View
           style={{
             flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
+            justifyContent: "center",
+            alignItems: "center",
             paddingHorizontal: 20,
             marginTop: 20,
           }}
@@ -36,9 +30,9 @@ export default function App() {
           <Text
             style={{
               fontSize: 24,
-              color: '#FFFFFF', 
-              fontWeight: 'bold',
-              textAlign: 'center',
+              color: "#FFFFFF",
+              fontWeight: "bold",
+              textAlign: "center",
               lineHeight: 34,
             }}
           >
@@ -48,45 +42,44 @@ export default function App() {
             style={{
               marginTop: 10,
               fontSize: 16,
-              color: '#BDA475', 
-              textAlign: 'center',
+              color: "#BDA475",
+              textAlign: "center",
             }}
           >
             Explore as oportunidades da bolsa americana.
           </Text>
         </View>
 
-   
         <View
           style={{
-            justifyContent: 'center',
-            alignItems: 'center',
+            justifyContent: "center",
+            alignItems: "center",
             marginBottom: 40,
           }}
         >
           <TouchableOpacity
             style={{
-              backgroundColor: '#BDA475',
+              backgroundColor: "#BDA475",
               paddingVertical: 15,
               paddingHorizontal: 40,
               borderRadius: 30,
-              shadowColor: '#000',
+              shadowColor: "#000",
               shadowOffset: { width: 0, height: 4 },
               shadowOpacity: 0.3,
               shadowRadius: 4,
               elevation: 5,
-              width: '80%',
+              width: "80%",
             }}
             onPress={() => {
-              router.push('/sign-in'); 
+              router.push("/sign-in");
             }}
           >
             <Text
               style={{
                 fontSize: 18,
-                fontWeight: 'bold',
-                color: '#FFFFFF',
-                textAlign: 'center',
+                fontWeight: "bold",
+                color: "#FFFFFF",
+                textAlign: "center",
               }}
             >
               Acessar Conta

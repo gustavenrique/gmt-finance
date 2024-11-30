@@ -8,9 +8,9 @@ import {
   SafeAreaView,
   Animated,
 } from "react-native";
-import { useRouter } from "expo-router"; // Importando useRouter para navegação
-import { Colors, messageBoxStyle } from "@/constants/Colors";
-import { updateUserProfile, account } from "../lib/appwrite"; // Importando a função de atualização
+import { useRouter } from "expo-router";
+import { Colors, MessageBoxStyle } from "@/constants/Style";
+import { updateUserProfile, account } from "../infra/user.repository";
 
 const EditProfile = () => {
   const [currentUser, setCurrentUser] = useState(null);
@@ -43,7 +43,7 @@ const EditProfile = () => {
 
       showMessage({
         text: "Alterações salvas!",
-        style: messageBoxStyle.successMessage,
+        style: MessageBoxStyle.successMessage,
       });
 
       Animated.timing(fadeAnim, {
@@ -59,7 +59,7 @@ const EditProfile = () => {
       console.error("Erro ao salvar alterações:", error);
       showMessage({
         text: error.message,
-        style: messageBoxStyle.errorMessage,
+        style: MessageBoxStyle.errorMessage,
       });
     }
   };
@@ -130,7 +130,7 @@ const EditProfile = () => {
 
         {message?.text && (
           <Animated.View
-            style={[messageBoxStyle.messageContainer, { opacity: fadeAnim }]}
+            style={[MessageBoxStyle.messageContainer, { opacity: fadeAnim }]}
           >
             <Text style={message.style}>{message.text}</Text>
           </Animated.View>
