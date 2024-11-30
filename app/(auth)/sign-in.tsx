@@ -18,7 +18,7 @@ const SignIn = () => {
   const router = useRouter(); // Inicializa o router para navegação
 
   const handleLogin = async () => {
-    setErrorMessage(""); // Limpa qualquer mensagem de erro anterior
+    setErrorMessage("");
     try {
       const response = await loginUser(email, password); // Usando a função de login correta
       console.log("Login successful:", response);

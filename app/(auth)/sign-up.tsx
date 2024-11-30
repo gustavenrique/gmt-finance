@@ -1,6 +1,5 @@
 import React, { useState, useRef } from "react";
 import {
-  View,
   TextInput,
   StyleSheet,
   Text,
@@ -9,7 +8,7 @@ import {
   Animated,
 } from "react-native";
 import { useRouter } from "expo-router"; // Usando o hook do Expo Router
-import { Colors } from "@/constants/Colors";
+import { Colors, messageBoxStyle } from "@/constants/Colors";
 import { createUser } from "../../lib/appwrite"; // Certifique-se de importar a função de criação corretamente
 
 const SignUp = () => {
@@ -29,7 +28,7 @@ const SignUp = () => {
 
       showMessage({
         text: "Cadastro realizado com sucesso!",
-        style: styles.successMessage,
+        style: messageBoxStyle.successMessage,
       });
 
       setTimeout(() => router.push("/sign-in"), 3000); // Redirecionar após a mensagem desaparecer
@@ -37,7 +36,7 @@ const SignUp = () => {
       console.error("Erro no cadastro:", error.message);
       showMessage({
         text: error.message,
-        style: styles.errorMessage,
+        style: messageBoxStyle.errorMessage,
       });
     }
   };
@@ -110,7 +109,9 @@ const SignUp = () => {
       </Text>
 
       {message?.text && (
-        <Animated.View style={[styles.messageContainer, { opacity: fadeAnim }]}>
+        <Animated.View
+          style={[messageBoxStyle.messageContainer, { opacity: fadeAnim }]}
+        >
           <Text style={message.style}>{message.text}</Text>
         </Animated.View>
       )}
@@ -167,24 +168,6 @@ const styles = StyleSheet.create({
   link: {
     color: Colors.accent,
     fontWeight: "bold",
-  },
-  messageContainer: {
-    position: "absolute",
-    bottom: 50,
-    padding: 10,
-    backgroundColor: Colors.secondary,
-    borderRadius: 5,
-    alignItems: "center",
-  },
-  successMessage: {
-    color: Colors.white,
-    fontSize: 14,
-    textAlign: "center",
-  },
-  errorMessage: {
-    color: Colors.red,
-    fontSize: 14,
-    textAlign: "center",
   },
 });
 

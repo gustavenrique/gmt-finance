@@ -1,15 +1,22 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView, Animated } from 'react-native';
-import { Feather } from '@expo/vector-icons';
-import { useRouter } from 'expo-router'; 
-import { account } from '../../lib/appwrite'; 
-import { Colors } from '@/constants/Colors';
+import React, { useState, useRef, useEffect } from "react";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  SafeAreaView,
+  Animated,
+} from "react-native";
+import { Feather } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import { account } from "../../lib/appwrite";
+import { Colors } from "@/constants/Colors";
 
 const Profile = () => {
   const [messageVisible, setMessageVisible] = useState(false);
-  const [username, setUsername] = useState(''); // Adicionado estado para armazenar o nome do usuário
+  const [username, setUsername] = useState(""); // Adicionado estado para armazenar o nome do usuário
   const fadeAnim = useRef(new Animated.Value(0)).current;
-  const router = useRouter(); 
+  const router = useRouter();
 
   useEffect(() => {
     const fetchUsername = async () => {
@@ -17,7 +24,7 @@ const Profile = () => {
         const user = await account.get(); // Obtém as informações do usuário logado
         setUsername(user.name); // Atualiza o estado com o nome do usuário
       } catch (error) {
-        console.error('Erro ao obter o usuário:', error);
+        console.error("Erro ao obter o usuário:", error);
       }
     };
 
@@ -28,9 +35,9 @@ const Profile = () => {
     try {
       await account.deleteSessions();
       showLogoutMessage();
-      setTimeout(() => router.push('/sign-in'), 3000); 
+      setTimeout(() => router.push("/sign-in"), 3000);
     } catch (error) {
-      console.error('Erro no logout:', error);
+      console.error("Erro no logout:", error);
       showErrorLogoutMessage();
     }
   };
@@ -70,14 +77,18 @@ const Profile = () => {
   };
 
   const handleEditProfile = () => {
-    router.push('/editProfile');
+    router.push("/editProfile");
   };
 
   const options = [
-    { title: 'Dados Cadastrais', icon: 'file-text', onPress: handleEditProfile }, 
-    { title: 'Ajuda', icon: 'help-circle' },
-    { title: 'Configurações', icon: 'settings' },
-    { title: 'Sair', icon: 'log-out', onPress: handleLogout }, 
+    {
+      title: "Dados Cadastrais",
+      icon: "file-text",
+      onPress: handleEditProfile,
+    },
+    { title: "Ajuda", icon: "help-circle" },
+    { title: "Configurações", icon: "settings" },
+    { title: "Sair", icon: "log-out", onPress: handleLogout },
   ];
 
   return (
@@ -85,7 +96,10 @@ const Profile = () => {
       <View style={styles.header}>
         <View style={styles.profileImage} />
         <View style={styles.profileDetails}>
-          <Text style={styles.profileName}>{username ? username : 'Seu Nome'}</Text> {/* Exibe o nome ou valor padrão */}
+          <Text style={styles.profileName}>
+            {username ? username : "Seu Nome"}
+          </Text>{" "}
+          {/* Exibe o nome ou valor padrão */}
         </View>
       </View>
 
@@ -94,7 +108,7 @@ const Profile = () => {
           <TouchableOpacity
             key={index}
             style={styles.option}
-            onPress={option.onPress} 
+            onPress={option.onPress}
           >
             <View style={styles.optionTextContainer}>
               <Feather name={option.icon} size={20} color="#BDA475" />
@@ -106,8 +120,10 @@ const Profile = () => {
       </View>
 
       {messageVisible && (
-        <Animated.View style={[styles.messageContainer, { opacity: fadeAnim }]} >
-          <Text style={styles.successMessage}>Logout realizado com sucesso!</Text>
+        <Animated.View style={[styles.messageContainer, { opacity: fadeAnim }]}>
+          <Text style={styles.successMessage}>
+            Logout realizado com sucesso!
+          </Text>
         </Animated.View>
       )}
     </SafeAreaView>
@@ -121,9 +137,11 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   header: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 30,
+    paddingLeft: 15,
+    paddingTop: 15,
   },
   profileImage: {
     width: 80,
@@ -136,23 +154,23 @@ const styles = StyleSheet.create({
   },
   profileName: {
     fontSize: 20,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: Colors.white,
   },
   optionsContainer: {
     marginTop: 20,
   },
   option: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    paddingVertical: 15,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 15,
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    borderBottomColor: "#ccc",
   },
   optionTextContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
   },
   optionText: {
     marginLeft: 10,
@@ -160,21 +178,21 @@ const styles = StyleSheet.create({
     color: Colors.white,
   },
   messageContainer: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 20,
     left: 0,
     right: 0,
     padding: 10,
     backgroundColor: Colors.secondary,
     borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
     marginHorizontal: 20,
   },
   successMessage: {
     color: Colors.white,
     fontSize: 14,
-    textAlign: 'center',
+    textAlign: "center",
   },
 });
 

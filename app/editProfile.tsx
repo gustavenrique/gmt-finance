@@ -1,87 +1,141 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, SafeAreaView, Animated } from 'react-native';
-import { useRouter } from 'expo-router'; // Importando useRouter para navegação
-import { Colors } from '@/constants/Colors';
-import { updateUserProfile, account } from '../lib/appwrite'; // Importando a função de atualização
+import React, { useState, useEffect, useRef } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+  SafeAreaView,
+  Animated,
+} from "react-native";
+import { useRouter } from "expo-router"; // Importando useRouter para navegação
+import { Colors, messageBoxStyle } from "@/constants/Colors";
+import { updateUserProfile, account } from "../lib/appwrite"; // Importando a função de atualização
 
 const EditProfile = () => {
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [messageVisible, setMessageVisible] = useState(false); // Estado para controle da mensagem
-  const fadeAnim = useRef(new Animated.Value(0)).current; // Animação para a mensagem de sucesso
-  const router = useRouter(); // Instanciando o router para navegação
+  const [currentUser, setCurrentUser] = useState(null);
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState<{
+    text: string;
+    style: object;
+  } | null>(null);
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const router = useRouter();
 
-  // Função para buscar dados do usuário no Appwrite
   useEffect(() => {
-    const fetchUserData = async () => {
+    (async () => {
       try {
-        const user = await account.get(); // Pega os dados do usuário logado
-        setUsername(user.name); // Atualiza o estado com o nome
-        setEmail(user.email); // Atualiza o estado com o e-mail
+        const user = await account.get();
+        setUsername(user.name);
+        setEmail(user.email);
+        setCurrentUser(user);
       } catch (error) {
-        console.error('Erro ao buscar dados do usuário:', error);
+        console.error("Erro ao buscar dados do usuário:", error);
       }
-    };
-
-    fetchUserData();
+    })();
   }, []);
 
-  // Função para salvar as alterações e mostrar a mensagem de sucesso
   const handleSaveChanges = async () => {
     try {
-      // Atualiza o perfil do usuário no Appwrite
-      await updateUserProfile(username, email);
-      console.log('Alterações salvas!');
+      await updateUserProfile(username, email, password);
 
-      // Exibe a mensagem de sucesso
-      setMessageVisible(true);
+      showMessage({
+        text: "Alterações salvas!",
+        style: messageBoxStyle.successMessage,
+      });
+
       Animated.timing(fadeAnim, {
         toValue: 1,
         duration: 500,
         useNativeDriver: true,
       }).start();
 
-      // Redireciona para a tela de perfil após 3 segundos
       setTimeout(() => {
-        router.push('/profile'); // Redireciona para a tela de perfil
+        router.push("/profile");
       }, 3000);
     } catch (error) {
-      console.error('Erro ao salvar alterações:', error);
+      console.error("Erro ao salvar alterações:", error);
+      showMessage({
+        text: error.message,
+        style: messageBoxStyle.errorMessage,
+      });
     }
+  };
+
+  const showMessage = (message: { text: string; style: object }) => {
+    setMessage(message);
+
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 500,
+      useNativeDriver: true,
+    }).start(() => {
+      setTimeout(() => {
+        Animated.timing(fadeAnim, {
+          toValue: 0,
+          duration: 500,
+          useNativeDriver: true,
+        }).start(() => setMessage(null));
+      }, 3000);
+    });
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.profileContainer}>
-        <Text style={styles.label}>Nome</Text>
-        <TextInput
-          style={styles.input}
-          value={username}
-          onChangeText={setUsername}
-          placeholder="Digite seu nome"
-          placeholderTextColor="#888"
-        />
+        <div style={styles.inputContainer}>
+          <Text style={styles.label}>Nome</Text>
 
-        <Text style={styles.label}>Email</Text>
-        <TextInput
-          style={styles.input}
-          value={email}
-          onChangeText={setEmail}
-          placeholder="Digite seu email"
-          placeholderTextColor="#888"
-        />
+          <TextInput
+            style={styles.input}
+            value={username}
+            onChangeText={setUsername}
+            placeholder="Digite seu nome"
+            placeholderTextColor="#888"
+          />
+        </div>
+
+        <div style={styles.inputContainer}>
+          <Text style={styles.label}>E-mail</Text>
+
+          <TextInput
+            style={styles.input}
+            value={email}
+            onChangeText={setEmail}
+            placeholder="Digite seu email"
+            placeholderTextColor="#888"
+          />
+        </div>
+
+        {currentUser?.email != email && (
+          <div style={styles.inputContainer}>
+            <Text style={styles.label}>Senha</Text>
+
+            <TextInput
+              style={styles.input}
+              value={password}
+              onChangeText={setPassword}
+              placeholder="Digite sua senha"
+              secureTextEntry
+              placeholderTextColor="#888"
+            />
+          </div>
+        )}
 
         <TouchableOpacity style={styles.saveButton} onPress={handleSaveChanges}>
           <Text style={styles.saveButtonText}>Salvar Alterações</Text>
         </TouchableOpacity>
-      </View>
 
-      {/* Exibição da mensagem de sucesso */}
-      {messageVisible && (
-        <Animated.View style={[styles.messageContainer, { opacity: fadeAnim }]}>
-          <Text style={styles.successMessage}>Alterações salvas!</Text>
-        </Animated.View>
-      )}
+        {message?.text && (
+          <Animated.View
+            style={[messageBoxStyle.messageContainer, { opacity: fadeAnim }]}
+          >
+            <Text style={message.style}>{message.text}</Text>
+          </Animated.View>
+        )}
+      </View>
     </SafeAreaView>
   );
 };
@@ -93,52 +147,42 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   profileContainer: {
-    alignItems: 'center',
+    alignItems: "center",
     marginTop: 30,
+    padding: 15,
   },
   label: {
     fontSize: 16,
-    color: '#fff',
-    fontWeight: 'bold',
-    marginBottom: 5,
+    color: "#fff",
+    fontWeight: "bold",
+    whiteSpace: "nowrap",
+    paddingRight: 15,
   },
   input: {
-    width: '100%',
+    width: "100%",
     padding: 12,
     backgroundColor: Colors.white,
     borderRadius: 8,
     color: Colors.black,
     fontSize: 16,
-    marginBottom: 20,
   },
   saveButton: {
-    width: '100%',
+    width: "100%",
     padding: 15,
-    backgroundColor: '#BDA475',
+    backgroundColor: "#BDA475",
     borderRadius: 8,
-    alignItems: 'center',
+    alignItems: "center",
   },
   saveButtonText: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#fff',
+    fontWeight: "bold",
+    color: "#fff",
   },
-  messageContainer: {
-    position: 'absolute',
-    bottom: 20, // Ajusta a posição para ficar na parte inferior da tela
-    left: '50%', // Centraliza horizontalmente
-    transform: [{ translateX: -150 }], // Ajusta para centralizar com base no texto
-    padding: 10,
-    backgroundColor: Colors.secondary,
-    borderRadius: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginHorizontal: 20,
-  },
-  successMessage: {
-    color: Colors.white,
-    fontSize: 14,
-    textAlign: 'center',
+  inputContainer: {
+    width: "100%",
+    display: "flex",
+    alignItems: "center",
+    marginBottom: 15,
   },
 });
 
