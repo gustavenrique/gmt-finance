@@ -1,4 +1,4 @@
-import { Client, ID, Databases } from "react-native-appwrite";
+import { Client, ID, Databases, Query } from "react-native-appwrite";
 import Config from "./config";
 import { OperationType, Order } from "../app/dtos/Order";
 import { account } from "./user.repository";
@@ -28,6 +28,16 @@ export default {
   },
 
   async getOrdersByUser(userId: string) {
-    
+    const orders = (await databases.listDocuments(
+      Config.appWrite.databaseId,
+      Config.appWrite.ordersCollectionId,
+      [
+        Query.equal('userId', userId)
+      ]
+    ))?.documents as Order[]
+
+    console.log(orders);
+
+    return orders;
   }
 }

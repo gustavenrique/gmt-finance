@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -9,24 +9,31 @@ import {
 } from "react-native";
 import { Feather } from "@expo/vector-icons"; // Para ícones
 import { Colors, QuantityAdjustmentStyle } from "@/constants/Style";
+import orderRepository from "@/infra/order.repository";
+import { account } from "@/infra/user.repository";
 
 const Wallet = () => {
   const [showBalance, setShowBalance] = useState(false);
   const [quantity, setQuantity] = useState(10);
 
-  const actions = [
-    { id: 1, name: "Ação 1", symbol: "A1" },
-    { id: 2, name: "Ação 2", symbol: "A2" },
-    { id: 3, name: "Ação 3", symbol: "A3" },
-    { id: 4, name: "Ação 4", symbol: "A4" },
-    { id: 5, name: "Ação 5", symbol: "A5" },
-    { id: 6, name: "Ação 6", symbol: "A6" },
-    { id: 7, name: "Ação 7", symbol: "A7" },
-    { id: 8, name: "Ação 8", symbol: "A8" },
-    { id: 9, name: "Ação 9", symbol: "A9" },
-    { id: 10, name: "Ação 10", symbol: "A10" },
-    { id: 11, name: "Ação 11", symbol: "A11" },
-    { id: 12, name: "Ação 12", symbol: "A12" },
+  useEffect(() => {
+    (async () => {
+      const userId = (await account.get()).$id;
+
+      const orders = await orderRepository.getOrdersByUser(userId)
+    })()
+  }, [])
+
+  const positions = [
+    { id: 1, name: "Microsoft", quantity: 54, investedValue: 0, currentValue: 0, ticker: "MSFT", logo: "" },
+    { id: 2, name: "Apple", quantity: 32, investedValue: 0, currentValue: 0, ticker: "AAPL", logo: "" },
+    { id: 3, name: "Meta", quantity: 132, investedValue: 0, currentValue: 0, ticker: "META", logo: "" },
+    { id: 4, name: "Nvidia", quantity: 65, investedValue: 0, currentValue: 0, ticker: "NVDA", logo: "" },
+    { id: 5, name: "Novo Nordisk", quantity: 11, investedValue: 0, currentValue: 0, ticker: "NVO", logo: "" },
+    { id: 6, name: "Amazon", quantity: 45, investedValue: 0, currentValue: 0, ticker: "AMZN", logo: "" },
+    { id: 7, name: "Tesla", quantity: 23, investedValue: 0, currentValue: 0, ticker: "TSLA", logo: "" },
+    { id: 8, name: "Netflix", quantity: 43, investedValue: 0, currentValue: 0, ticker: "NFLX", logo: "" },
+    { id: 9, name: "Google", quantity: 676, investedValue: 0, currentValue: 0, ticker: "GOOGL", logo: "" },
   ];
 
   const toggleBalanceVisibility = () => {
@@ -62,10 +69,10 @@ const Wallet = () => {
       </View>
 
       <ScrollView contentContainerStyle={styles.actionsContainer}>
-        {actions.map((action) => (
+        {positions.map((action) => (
           <View key={action.id} style={styles.actionCard}>
             <Text style={styles.actionText}>{action.name}</Text>
-            <Text style={styles.actionSymbol}>({action.symbol})</Text>
+            <Text style={styles.actionSymbol}>({action.ticker})</Text>
             <View style={QuantityAdjustmentStyle.quantityContainer}>
               <TouchableOpacity
                 onPress={decreaseQuantity}
